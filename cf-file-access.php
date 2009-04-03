@@ -191,10 +191,11 @@ add_action('template_redirect','cfap_deliver_file'); // this is the earliest we 
 			$ext = pathinfo($file,PATHINFO_EXTENSION);
 			$mimetype = "image/$ext";
 		}
-		
-		// the rest is unmodified form blogs.php
+				
 		@header( 'Content-type: ' . $mimetype ); // always send this
 		@header( 'Content-Length: ' . filesize( $file ) );
+		
+		@header('Content-disposition: inline; filename='.basename($file));		
 		
 		$last_modified = gmdate('D, d M Y H:i:s', filemtime( $file ));
 		$etag = '"' . md5($last_modified) . '"';
@@ -223,6 +224,8 @@ add_action('template_redirect','cfap_deliver_file'); // this is the earliest we 
 		}
 		
 		// If we made it this far, just serve the file
+		ob_clean();
+		flush();
 		readfile( $file );
 		// forcefully exit, needed to stop the rest of wordpress from processing
 		exit;
