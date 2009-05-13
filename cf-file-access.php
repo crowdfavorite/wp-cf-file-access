@@ -121,7 +121,7 @@ add_action('template_redirect','cfap_deliver_file'); // this is the earliest we 
 			$post->post_name = 'access-denied';
 			$post->guid = get_bloginfo('wpurl') . '/' . $post->name;
 			$post->post_title = 'Access Denied';
-			$post->post_content = '<p><b>Access denied to file: '.basename($file).'</b></p>';
+			$post->post_content = '<p><strong>Access denied to file: '.basename($file).'</strong></p>';
 			$post->post_date = $post->post_date_gmt= date('Y-m-d H:i:s');
 			$post->post_category = '';
 			$post->post_excerpt = '';
