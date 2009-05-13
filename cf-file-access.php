@@ -145,6 +145,8 @@ add_action('template_redirect','cfap_deliver_file'); // this is the earliest we 
 		$wp_query->query_vars['error'] = '';
 		$wp_query->posts[] = apply_filters('cfap_denied_post',$post);
 		
+		remove_filter('the_content','wpautop');
+		
 		//die(__('401 &#8212; Access to file "'.basename($file).'" not allowed.'));	
 	}
 	
