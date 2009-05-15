@@ -87,7 +87,7 @@ add_action('template_redirect','cfap_deliver_file'); // this is the earliest we 
 		
 		$deliver = true;		
 		$deliver = apply_filters('cfap_deliver_file',$deliver,$cfap_filepath);
-		$deliver = false;
+
 		if(!$deliver) { cfap_denied($cfap_filepath); }
 		else { cfap_passthru($cfap_filepath); }
 	}
