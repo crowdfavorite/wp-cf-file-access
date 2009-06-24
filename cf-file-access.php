@@ -53,7 +53,7 @@ Author URI: http://crowdfavorite.com
 // 	ini_set('display_errors', '1'); ini_set('error_reporting', E_ALL);
 
 load_plugin_textdomain('crowdfavorite');
-add_action('init','cfap_flushRewriteRules');
+//add_action('init','cfap_flushRewriteRules');
 add_action('generate_rewrite_rules','cfap_addRewriteRules');
 add_action('query_vars','cfap_query_vars');
 add_action('template_redirect','cfap_deliver_file'); // this is the earliest we can find the wp_rewrite result
@@ -236,12 +236,19 @@ add_action('template_redirect','cfap_deliver_file'); // this is the earliest we 
 // Rewrite links
 
 	/**
-	 * Make sure new rewrite rules are processed
+	 * check to make sure that our permalink structure is present
+	 * null the field if it is not - this will force wp-rewrite to recalculate the rewrite rules
+	 *
+	 * @param array $value 
+	 * @return string/array
 	 */
-	function cfap_flushRewriteRules() {
-	   global $wp_rewrite;
-	   $wp_rewrite->flush_rules();		
+	function cfap_getRewriteOption($value) {
+		if(!array_key_exists('files/(.+)',$value)) {
+			$value = '';
+		}
+		return $value;
 	}
+	add_filter('option_rewrite_rules','cfap_getRewriteOption',9999);
 	
 	/**
 	 * Default catch all redirected files
