@@ -15,9 +15,12 @@ Author URI: http://crowdfavorite.com
 // ## .htaccess
 // Files should be redirected here via a .htaccess rewrite. For example, if you want to redirect pdf files here use:
 // 
+//	On WPMU
 //		RewriteRule ^(.*/)?files/(.*).pdf index.php [L]
-// 
-// That tells Apache to send anything with /files/ in the url (which is WordPress MUs way of controlling file distribution) that 
+// 	On WordPress
+//		RewriteRule ^(.*/)?uploads/(.*).pdf index.php [L]
+//
+// That tells Apache to send anything with /files/ (or /uploads/) in the url (/files/ is WordPress MU's way of controlling file distribution) that 
 // has pdf at the end to redirect to index.php where we can get at it.
 // Critical to this statement is the [L] modifier at the end - it tells apache that if this is a match that it should NOT try 
 // to do any more matching and continue on with the request. Without this other rewrite rules will override our desired results.
@@ -48,12 +51,12 @@ Author URI: http://crowdfavorite.com
 // 
 // # Tested on
 //	WPMU 2.6.3
+//  WP 2.8.1
 
 
 // 	ini_set('display_errors', '1'); ini_set('error_reporting', E_ALL);
 
 load_plugin_textdomain('crowdfavorite');
-add_action('init','cfap_flushRewriteRules');
 add_action('generate_rewrite_rules','cfap_addRewriteRules');
 add_action('query_vars','cfap_query_vars');
 add_action('template_redirect','cfap_deliver_file'); // this is the earliest we can find the wp_rewrite result
@@ -231,12 +234,22 @@ add_action('template_redirect','cfap_deliver_file'); // this is the earliest we 
 // Rewrite links
 
 	/**
-	 * Make sure new rewrite rules are processed
+	 * check to make sure that our permalink structure is present
+	 * null the field if it is not - this will force wp-rewrite to recalculate the rewrite rules
+	 *
+	 * @param array $value 
+	 * @return string/array
 	 */
-	function cfap_flushRewriteRules() {
-	   global $wp_rewrite;
-	   $wp_rewrite->flush_rules();		
+	function cfap_get_rewrite_option($value) {
+		$rules = cfap_get_rewrite_rules();
+		foreach(array_keys($rules) as $rule) {
+			if(!array_key_exists($rule,$value)) {
+				$value = '';
+			}			
+		}
+		return $value;
 	}
+	add_filter('option_rewrite_rules','cfap_get_rewrite_option',9999);
 	
 	/**
 	 * Default catch all redirected files
@@ -244,10 +257,15 @@ add_action('template_redirect','cfap_deliver_file'); // this is the earliest we 
 	 */
 	function cfap_addRewriteRules() {
 		global $wp_rewrite;
-		$new_rules = array(
-				'files/(.+)' => 'index.php?name='.$wp_rewrite->preg_index(1).'&cfap_filepath='.$wp_rewrite->preg_index(1),
-			);
+		$new_rules = cfap_get_rewrite_rules();
 		$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;		
+	}
+	
+	function cfap_get_rewrite_rules() {
+		return array(
+			'files/(.+)' => 'index.php?name='.$wp_rewrite->preg_index(1).'&cfap_filepath='.$wp_rewrite->preg_index(1),
+			'(wp-content/uploads/(.+))' => 'index.php?name='.$wp_rewrite->preg_index(2).'&cfap_filepath='.$wp_rewrite->preg_index(1)			
+		);
 	}
 	
 	/**
