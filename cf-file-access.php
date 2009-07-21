@@ -195,6 +195,11 @@ add_action('template_redirect','cfap_deliver_file'); // this is the earliest we 
 			$mimetype = "image/$ext";
 		}
 		
+		// force close mysql link
+		global $wpdb;
+		mysql_close($wpdb->dbh);
+		unset($wpdb);
+		
 		// the rest is unmodified form blogs.php
 		@header( 'Content-type: ' . $mimetype ); // always send this
 		@header( 'Content-Length: ' . filesize( $file ) );
