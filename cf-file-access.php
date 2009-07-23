@@ -267,6 +267,7 @@ add_action('template_redirect','cfap_deliver_file'); // this is the earliest we 
 	}
 	
 	function cfap_get_rewrite_rules() {
+		global $wp_rewrite;
 		return array(
 			'files/(.+)' => 'index.php?name='.$wp_rewrite->preg_index(1).'&cfap_filepath='.$wp_rewrite->preg_index(1),
 			'(wp-content/uploads/(.+))' => 'index.php?name='.$wp_rewrite->preg_index(2).'&cfap_filepath='.$wp_rewrite->preg_index(1)			
