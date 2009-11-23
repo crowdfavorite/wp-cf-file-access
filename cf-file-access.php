@@ -27,11 +27,9 @@ Author URI: http://crowdfavorite.com
 //
 // ## Filter: cfap_deliver_file
 //
-// Inspecting the requested file is done via the 'cfap_deliver_file' action. When called it passes in the path of the requested
-// file (most likely something like: files/2008/10/my_file.pdf). This allows other plugins to determine wether the file should
-// be shown or not. The filtering function should return false if access is denied, or the filepath if access is granted. You can
-// modify the file path at this time but the result must point to a real file on the filesystem, or be relative to the active blog's
-// uploads dir or else a 404 will be delivered.
+// Inspecting the requested file is done via the 'cfap_deliver_file' action. When called it passes in 2 variables: a boolean value of wether to deliver 
+// the file and the path of the requested file (most likely something like: files/2008/10/my_file.pdf). This allows other plugins to determine wether the 
+// file should be shown or not. The filtering function should return false if access is denied, or true if access is granted. 
 //
 // ## Filter: cfap_filepath
 // 
