@@ -49,7 +49,7 @@ Author URI: http://crowdfavorite.com
 // 
 // # Tested on
 //	WPMU 2.6.3
-//  WP 2.8.1
+//  WP 2.9 beta
 
 
 // 	ini_set('display_errors', '1'); ini_set('error_reporting', E_ALL);
