@@ -1,0 +1,10 @@
+# CF File Access Changelog
+
+## 1.0.1
+- documentation update
+- compatibility status updated to WP 2.9
+- Added CHANGELOG.txt file
+- Added README.txt file
+
+## 1.0
+- initial release
