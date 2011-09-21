@@ -1,10 +1,13 @@
 # CF File Access Changelog
 
-## 1.0.1
-- documentation update
-- compatibility status updated to WP 2.9
-- Added CHANGELOG.txt file
-- Added README.txt file
+## 1.1
+
+- Adding README
+- Adding CHANGELOG
+- Moving documentation from top of plugin to readme
+- Updating compatibility with WP 3.2.1
+- Adding more information to `cfap_denied_post` filter
 
 ## 1.0
+
 - initial release
