@@ -3,7 +3,7 @@
 Plugin Name: CF File Access 
 Plugin URI: http://crowdfavorite.com 
 Description: Process incoming /files/* requests for designated file extensions for pre-processing (ie: authentication, redirect, etc...) 
-Version: 1.1
+Version: 1.1.1
 Author: Crowd Favorite
 Author URI: http://crowdfavorite.com
 */
@@ -159,7 +159,23 @@ Author URI: http://crowdfavorite.com
 		
 		// force close mysql link
 		global $wpdb;
-		mysql_close($wpdb->dbh);
+		// Logic copied from wpdb to determine whether it's using mysql or mysqli.
+		$use_mysqli = false;
+		if ( function_exists( 'mysqli_connect' ) ) {
+			if ( defined( 'WP_USE_EXT_MYSQL' ) ) {
+				$use_mysqli = ! WP_USE_EXT_MYSQL;
+			} elseif ( version_compare( phpversion(), '5.5', '>=' ) || ! function_exists( 'mysql_connect' ) ) {
+				$use_mysqli = true;
+			} elseif ( false !== strpos( $GLOBALS['wp_version'], '-' ) ) {
+				$use_mysqli = true;
+			}
+		}
+		if ($use_mysqli) {
+			mysqli_close($wpdb->dbh);
+		}
+		else {
+			mysql_close($wpdb->dbh);
+		}
 		unset($wpdb);
 		
 		// the rest is unmodified form blogs.php

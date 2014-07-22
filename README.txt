@@ -35,4 +35,4 @@ Actions on these functions are passed the `$filepath`. `cfap_not_found` defaults
 
 ## Tested on
 
-- WP 3.2.1
+- WP 3.9.1
