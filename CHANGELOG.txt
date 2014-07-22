@@ -1,5 +1,9 @@
 # CF File Access Changelog
 
+## 1.1.1
+
+- Added hotfix for mysqli integration.
+
 ## 1.1
 
 - Adding README
