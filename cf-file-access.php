@@ -176,6 +176,13 @@ Author URI: http://crowdfavorite.com
 		else {
 			mysql_close($wpdb->dbh);
 		}
+		
+		if ( is_resource($wpdb->dbh) ) {
+			mysql_close($wpdb->dbh);
+		}
+		else {
+			@mysqli_close($wpdb->dbh);
+		}
 		unset($wpdb);
 		
 		// the rest is unmodified form blogs.php

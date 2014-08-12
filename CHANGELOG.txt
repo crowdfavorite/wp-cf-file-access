@@ -3,6 +3,7 @@
 ## 1.1.1
 
 - Added hotfix for mysqli integration.
+- Updated to better detect mysql connection type and close
 
 ## 1.1
 
