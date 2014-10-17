@@ -3,7 +3,7 @@
 Plugin Name: CF File Access 
 Plugin URI: http://crowdfavorite.com 
 Description: Process incoming /files/* requests for designated file extensions for pre-processing (ie: authentication, redirect, etc...) 
-Version: 1.1.1
+Version: 1.2
 Author: Crowd Favorite
 Author URI: http://crowdfavorite.com
 */
@@ -49,7 +49,7 @@ Author URI: http://crowdfavorite.com
 		$deliver = apply_filters('cfap_deliver_file', $deliver, $cfap_filepath);
 		
 		if (!$deliver) { 
-			cfap_denied($cfap_filepath); 
+			do_action('cfap_denied', $cfap_filepath); 
 		}
 		else { 
 			cfap_passthru($cfap_filepath); 
@@ -112,6 +112,7 @@ Author URI: http://crowdfavorite.com
 		
 		remove_filter('the_content', 'wpautop');
 	}
+	add_action('cfap_denied', 'cfap_denied');
 	
 	/**
 	 * Default action for denied is to treat it as an HTTP 404

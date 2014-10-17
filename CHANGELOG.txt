@@ -1,5 +1,9 @@
 # CF File Access Changelog
 
+## 1.2
+
+- Small update to filter cfap_denied functionality so that we can use another handler as desired.
+
 ## 1.1.1
 
 - Added hotfix for mysqli integration.
